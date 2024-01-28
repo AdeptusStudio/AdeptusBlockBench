@@ -10,7 +10,7 @@ function addStartScreenSection(id, data) {
 		data = id;
 		id = '';
 	}
-	var obj = $(Interface.createElement('section', {id}))
+	var obj = $(Interface.createElement('section', { id }))
 	if (typeof data.graphic === 'object') {
 		var left = $('<div class="start_screen_left graphic"></div>')
 		obj.append(left)
@@ -23,7 +23,7 @@ function addStartScreenSection(id, data) {
 			left.css('background-image', `url('${data.graphic.source}')`)
 		}
 		if (data.graphic.width) {
-			left.css('width', data.graphic.width+'px');
+			left.css('width', data.graphic.width + 'px');
 		}
 		if (data.graphic.width && data.text) {
 			left.css('flex-shrink', '0');
@@ -31,10 +31,10 @@ function addStartScreenSection(id, data) {
 		if (data.graphic.width && data.graphic.height && Blockbench.isMobile) {
 			left.css('height', '0')
 				.css('padding-top', '0')
-				.css('padding-bottom', (data.graphic.height/data.graphic.width*100)+'%')
+				.css('padding-bottom', (data.graphic.height / data.graphic.width * 100) + '%')
 		} else {
-			if (data.graphic.height) left.css('height', data.graphic.height+'px');
-			if (data.graphic.width && !data.graphic.height && !data.graphic.aspect_ratio) left.css('height', data.graphic.width+'px');
+			if (data.graphic.height) left.css('height', data.graphic.height + 'px');
+			if (data.graphic.width && !data.graphic.height && !data.graphic.aspect_ratio) left.css('height', data.graphic.width + 'px');
 			if (data.graphic.aspect_ratio) left.css('aspect-ratio', data.graphic.aspect_ratio);
 		}
 		if (data.graphic.description) {
@@ -62,7 +62,7 @@ function addStartScreenSection(id, data) {
 					})
 					break;
 				case 'button': var tag = 'button'; break;
-				default:   var tag = 'p'; break;
+				default: var tag = 'p'; break;
 			}
 			var l = $(`<${tag}>${content}</${tag.split(' ')[0]}>`);
 			if (typeof line.click == 'function') {
@@ -129,7 +129,7 @@ function addStartScreenSection(id, data) {
 	}
 }
 
-onVueSetup(function() {
+onVueSetup(function () {
 	StateMemory.init('start_screen_list_type', 'string')
 
 	let slideshow_timer = 0;
@@ -182,13 +182,13 @@ onVueSetup(function() {
 					} else if (diff <= 7) {
 						return tl('dates.this_week');
 					} else {
-						return tl('dates.weeks_ago', [Math.ceil(diff/7)]);
+						return tl('dates.weeks_ago', [Math.ceil(diff / 7)]);
 					}
 				} else {
 					return '-'
 				}
 			},
-			openProject: function(p, event) {
+			openProject: function (p, event) {
 				Blockbench.read([p.path], {}, files => {
 					loadModelFile(files[0]);
 				})
@@ -201,7 +201,7 @@ onVueSetup(function() {
 					if (!fs.existsSync(path)) {
 						delete this.thumbnails[project.path];
 					} else {
-						this.thumbnails[project.path] = path + '?' + Math.round(Math.random()*255);
+						this.thumbnails[project.path] = path + '?' + Math.round(Math.random() * 255);
 					}
 				})
 				this.$forceUpdate();
@@ -252,7 +252,7 @@ onVueSetup(function() {
 			getFormatCategories() {
 				let categories = {};
 				function add(key, format) {
-					
+
 					if (!categories[format.category]) {
 						categories[format.category] = {
 							name: tl('format_category.' + format.category),
@@ -282,7 +282,7 @@ onVueSetup(function() {
 					let offset = $(button).offset().top;
 					if (offset + 38 > window.innerHeight) {
 						let change = offset + 64 - window.innerHeight;
-						StartScreen.vue.$el.scrollTo({top: StartScreen.vue.$el.scrollTop + change, behavior: 'smooth'})
+						StartScreen.vue.$el.scrollTo({ top: StartScreen.vue.$el.scrollTop + change, behavior: 'smooth' })
 					}
 				})
 			},
@@ -328,7 +328,7 @@ onVueSetup(function() {
 					slideshow_timer += 1;
 
 					if (slideshow_timer == 24) {
-						this.setSlide((this.slideshow_selected+1) % this.slideshow.length);
+						this.setSlide((this.slideshow_selected + 1) % this.slideshow.length);
 					}
 				}
 			}, 1000);
@@ -489,37 +489,41 @@ onVueSetup(function() {
 		StartScreen.vue.$forceUpdate();
 	})
 
-	
+
 	if (settings.streamer_mode.value) {
 		updateStreamerModeNotification()
 	}
-	
+
 	//Backup Model
 	if (localStorage.getItem('backup_model') && (!isApp || !currentwindow.webContents.second_instance) && localStorage.getItem('backup_model').length > 40) {
 		var backup_models = localStorage.getItem('backup_model')
 
 		let section = addStartScreenSection({
 			color: 'var(--color-back)',
-			graphic: {type: 'icon', icon: 'fa-archive'},
+			graphic: { type: 'icon', icon: 'fa-archive' },
 			insert_before: 'start_files',
 			text: [
-				{type: 'h2', text: tl('message.recover_backup.title')},
-				{text: tl('message.recover_backup.message')},
-				{type: 'button', text: tl('message.recover_backup.recover'), click: (e) => {
-					let parsed_backup_models = JSON.parse(backup_models);
-					for (let uuid in parsed_backup_models) {
-						AutoBackupModels[uuid] = parsed_backup_models[uuid];
+				{ type: 'h2', text: tl('message.recover_backup.title') },
+				{ text: tl('message.recover_backup.message') },
+				{
+					type: 'button', text: tl('message.recover_backup.recover'), click: (e) => {
+						let parsed_backup_models = JSON.parse(backup_models);
+						for (let uuid in parsed_backup_models) {
+							AutoBackupModels[uuid] = parsed_backup_models[uuid];
 
-						let model = parsed_backup_models[uuid];
-						setupProject(Formats[model.meta.model_format] || Formats.free, uuid);
-						Codecs.project.parse(model, 'backup.bbmodel')
+							let model = parsed_backup_models[uuid];
+							setupProject(Formats[model.meta.model_format] || Formats.free, uuid);
+							Codecs.project.parse(model, 'backup.bbmodel')
+						}
+						section.delete();
 					}
-					section.delete();
-				}},
-				{type: 'button', text: tl('dialog.discard'), click: (e) => {
-					localStorage.removeItem('backup_model');
-					section.delete();
-				}}
+				},
+				{
+					type: 'button', text: tl('dialog.discard'), click: (e) => {
+						localStorage.removeItem('backup_model');
+						section.delete();
+					}
+				}
 			]
 		})
 	}
@@ -547,20 +551,20 @@ class ModelLoader {
 		if (this.format_page && this.format_page.component) {
 			Vue.component(`format_page_${this.id}`, this.format_page.component)
 		}
-		Blockbench.dispatchEvent('construct_model_loader', {loader: this});
+		Blockbench.dispatchEvent('construct_model_loader', { loader: this });
 	}
 	new() {
 		this.onStart();
 	}
 	delete() {
 		Vue.delete(ModelLoader.loaders, this.id);
-		Blockbench.dispatchEvent('delete_model_loader', {loader: this});
+		Blockbench.dispatchEvent('delete_model_loader', { loader: this });
 	}
 }
 ModelLoader.loaders = {};
 
 
-(function() {
+(function () {
 	/*$.getJSON('./content/news.json').then(data => {
 		addStartScreenSection('new_version', data.new_version)
 	})*/
@@ -579,10 +583,10 @@ ModelLoader.loaders = {};
 			addStartScreenSection({
 				color: '#1da1f2',
 				text_color: '#ffffff',
-				graphic: {type: 'icon', icon: 'fab.fa-twitter'},
+				graphic: { type: 'icon', icon: 'fab.fa-twitter' },
 				text: [
-					{type: 'h2', text: 'Blockbench on Twitter'},
-					{text: 'Follow Blockbench on Twitter for the latest news as well as cool models from the community! [twitter.com/blockbench](https://twitter.com/blockbench/)'}
+					{ type: 'h2', text: 'AdeptusStudio on Twitter' },
+					{ text: 'Follow AdeptusStudio on Twitter for the latest news of AdeptusBlockBench| [twitter.com/teamadeptus](https://twitter.com/teamadeptus/)' }
 				],
 				last: true
 			})
@@ -592,10 +596,10 @@ ModelLoader.loaders = {};
 			addStartScreenSection({
 				color: '#5865F2',
 				text_color: '#ffffff',
-				graphic: {type: 'icon', icon: 'fab.fa-discord'},
+				graphic: { type: 'icon', icon: 'fab.fa-discord' },
 				text: [
-					{type: 'h2', text: 'Discord Server'},
-					{text: 'You need help with modeling or you want to chat about Blockbench? Join the official [Blockbench Discord](https://discord.gg/WVHg5kH)!'}
+					{ type: 'h2', text: 'Discord Server' },
+					{ text: 'You need help with modeling or you want to chat about Models, Programming or Others? Join to [AdeptusStudio Discord](https://discord.adeptusstudio.com)!' }
 				],
 				last: true
 			})
@@ -603,26 +607,28 @@ ModelLoader.loaders = {};
 
 		// Quick Setup
 		if (Blockbench.startup_count <= 1) {
-			
-			let section = Interface.createElement('section', {id: 'quick_setup'});
+
+			let section = Interface.createElement('section', { id: 'quick_setup' });
 			document.querySelector('#start_screen #splash_screen').after(section);
 
 			new Vue({
-				data() {return {
-					language: Language.code,
-					language_original: Language.code,
-					languages: Language.options,
-					keymap: 'default',
-					keymap_changed: false,
-					theme: 'dark',
-					keymap_options: {
-						default: tl('action.load_keymap.default'),
-						mouse: tl('action.load_keymap.mouse'),
-						blender: 'Blender',
-						cinema4d: 'Cinema 4D',
-						maya: 'Maya',
-					},
-				}},
+				data() {
+					return {
+						language: Language.code,
+						language_original: Language.code,
+						languages: Language.options,
+						keymap: 'default',
+						keymap_changed: false,
+						theme: 'dark',
+						keymap_options: {
+							default: tl('action.load_keymap.default'),
+							mouse: tl('action.load_keymap.mouse'),
+							blender: 'Blender',
+							cinema4d: 'Cinema 4D',
+							maya: 'Maya',
+						},
+					}
+				},
 				methods: {
 					tl,
 					close() {
@@ -707,7 +713,7 @@ ModelLoader.loaders = {};
 			})
 		}
 		if (data.psa) {
-			(function() {
+			(function () {
 				if (typeof data.psa.version == 'string') {
 					if (data.psa.version.includes('-')) {
 						limits = data.psa.version.split('-');

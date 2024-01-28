@@ -21,10 +21,10 @@ BARS.defineActions(() => {
 					} else if (compareVersions(Blockbench.version, v)) {
 						data.version_label = `${version_string} (Pre-release)`;
 					} else {
-						data.version_label = `${version_string} (${tl('about.version.up_to_date')}😄)`;
+						data.version_label = `${version_string} (UpStream - ${tl('about.version.up_to_date')}😄)`;
 					}
 				},
-				error(err) {}
+				error(err) { }
 			})
 
 			new Dialog({
@@ -39,16 +39,17 @@ BARS.defineActions(() => {
 				]),
 				buttons: [],
 				component: {
-					data() {return data},
+					data() { return data },
 					template: `
 						<div>
 							<div class="blockbench_logo" id="about_page_title">
 								<img src="assets/logo_text_white.svg" alt="Blockbench" width="340px">
 							</div>
+
 							<p>Version <span>{{ version_label }}</span></p>
 
 							<div class="socials">
-								<a class="open-in-browser" href="https://blockbench.net">
+								<a class="open-in-browser" href="https://adeptusstudio.com">
 									<i class="icon icon-blockbench_inverted" style="transform: scale(1.3);"></i>
 									<label>Website</label>
 								</a>
@@ -56,41 +57,26 @@ BARS.defineActions(() => {
 									<i class="icon fab fa-twitter" style="color: #1ea6ff;"></i>
 									<label>Twitter</label>
 								</a>
-								<a class="open-in-browser" href="http://discord.blockbench.net">
+								<a class="open-in-browser" href="http://discord.adeptusstudio.com">
 									<i class="icon fab fa-discord" style="color: #727fff;"></i>
 									<label>Discord</label>
 								</a>
-								<a class="open-in-browser" href="https://youtube.com/Blockbench3D">
+								<a class="open-in-browser" href="https://www.youtube.com/@AdeptusStudio">
 									<i class="icon fab fa-youtube" style="color: #ff4444;"></i>
 									<label>YouTube</label>
 								</a>
-								<a class="open-in-browser" href="https://github.com/JannisX11/blockbench">
+								<a class="open-in-browser" href="https://github.com/AdeptusStudio/NeutronStudio">
 									<i class="icon fab fa-github" style="color: #dddddd;"></i>
 									<label>GitHub</label>
 								</a>
-								<a class="open-in-browser" href="https://blockbench.net/wiki">
+								<a class="open-in-browser" href="https://wiki.adeptusstudio.com">
 								<i class="icon material-icons">menu_book</i>
 									<label>Wiki</label>
 								</a>
 							</div>
 
-							<p>Created by Jannis Petersen</p>
-							<p style="color: var(--color-subtle_text);">A free and open-source low-poly model editor. To make 3D art easy and accessible for everyone.
-								For all who enjoy stylized 3D art. For game developers, students, content creators, and for the Minecraft community.</p>
-
-							<h4>SPECIAL THANKS TO</h4>
-							<ul class="multi_column_list special_thanks_mentions">
-								<li>Mojang Studios</li>
-								<li>All contributors</li>
-								<li>The community moderators</li>
-								<li>All donators</li>
-								<li>All translators</li>
-								<li>Wacky</li>
-								<li>Ewan Howell and Lukas</li>
-								<li>SirBenet</li>
-								<li>Sultan Taha and Kanno</li>
-								<li>The Blockbench Community</li>
-							</ul>
+							<p>BlockBench Created by Jannis Petersen</p>
+							<p>Modified by AdeptusStudio</p>
 
 							<h4>FRAMEWORKS, LIBRARIES, AND ICONS</h4>
 
@@ -126,7 +112,6 @@ BARS.defineActions(() => {
 								<li><a class="open-in-browser" href="https://github.com/JannisX11/wintersky">Wintersky</a></li>
 							</ul>
 
-							<p style="margin-top: 20px">Published under the <a class="open-in-browser" href="https://github.com/JannisX11/blockbench/blob/master/LICENSE.MD">GPL 3.0 license</a></p>
 							<p><a class="open-in-browser" href="https://www.blockbench.net/privacy-policy">Privacy Policy</a></p>
 
 						</div>`
